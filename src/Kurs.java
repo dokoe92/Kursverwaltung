@@ -134,11 +134,7 @@ public class Kurs {
     }
 
     public void removeTeilnehmerWithName(String vorname, String nachname) {
-        for (Teilnehmer teilnehmer : teilnehmer) {
-            if (teilnehmer.getVorname().toLowerCase().equals(vorname.toLowerCase()) || teilnehmer.getNachname().toLowerCase().equals(nachname.toLowerCase())) {
-                this.teilnehmer.remove(teilnehmer);
-            }
-        }
+        teilnehmer.removeIf(teilnehmer -> teilnehmer.getVorname().equalsIgnoreCase(vorname) || teilnehmer.getNachname().equalsIgnoreCase(nachname));
     }
 
 

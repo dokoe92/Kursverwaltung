@@ -17,27 +17,29 @@ public class Console {
 
 
     public void printConsole() {
-        System.out.println("##########################################");
-        System.out.println("##############KURSVERWALTUNG##############");
-        System.out.println("##########################################");
-        System.out.println("Was möchten Sie tun?");
-        System.out.println("1. Institut auswählen");
-        System.out.println("2. Neues Institut hinzufügen");
-        System.out.println("3. Exit");
-        Scanner scanner = new Scanner(System.in);
-        int input = scanner.nextInt();
-        switch (input) {
-            case 1:
-                browseInstitutes();
-                break;
-            case 2:
-                addNewÍnstitute();
-                break;
-            case 3:
-                System.exit(0);
-                break;
-        }
+        while (true) {
+            System.out.println("##########################################");
+            System.out.println("##############KURSVERWALTUNG##############");
+            System.out.println("##########################################");
+            System.out.println("Was möchten Sie tun?");
+            System.out.println("1. Institut auswählen");
+            System.out.println("2. Neues Institut hinzufügen");
+            System.out.println("3. Exit");
+            Scanner scanner = new Scanner(System.in);
+            int input = scanner.nextInt();
+            switch (input) {
+                case 1:
+                    browseInstitutes();
+                    break;
+                case 2:
+                    addNewÍnstitute();
+                    break;
+                case 3:
+                    System.exit(0);
+                    break;
+            }
 
+        }
     }
 
 /* ---------'INSTUTUT OPTIONEN ---------*/
@@ -125,15 +127,19 @@ public class Console {
                     String date = scanner.nextLine();
                     LocalDate birthdate = LocalDate.parse(date);
                     kursMitId.addTeilnehmer(new Teilnehmer(vorname, nachname, sexChar, birthdate));
+                    browseInstitutes();
                     break;
 
                 case 2:
                     System.out.println("----------Teilnehmer löschen-------------");
                     System.out.println("#########################################");
-                    System.out.println("Bitte geben Sie Vor und Nachnamen des zu löschenden Teilnehmers ein:");
+                    System.out.println("Bitte geben Sie den Vornamen des zu löschenden Teilnehmers ein:");
                     vorname = scanner.nextLine();
+                    System.out.println("Bitte geben Sie den Nachnamen des zu löschenden Teilnehmers ein:");
                     nachname = scanner.nextLine();
-                    kursMitId.removeTeilnehmerWithName("vorname", "nachname");
+                    kursMitId.removeTeilnehmerWithName(vorname, nachname);
+                    browseInstitutes();
+
             }
         }
     }
