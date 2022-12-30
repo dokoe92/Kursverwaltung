@@ -59,8 +59,10 @@ public class Kurs {
 
 
     public void addTeilnehmer(Teilnehmer teilnehmer) {
-        if (teilnehmer != null) {
+        if (teilnehmer != null || this.maxteilnehmer + 1 < maxteilnehmer) {
             this.teilnehmer.add(teilnehmer);
+        } else {
+            System.out.println("Zu viele Teilnehmer!");
         }
     }
 
@@ -73,19 +75,74 @@ public class Kurs {
         System.out.println("Name:      " + this.name);
         System.out.println("Trainer:    " + this.trainer.getVorname() + " " + this.trainer.getNachname());
         System.out.println("Max. Anzahl: " + this.maxteilnehmer);
-        System.out.println("Belegung in %: ");
-        System.out.println("Frauenanteil in %: ");
-        System.out.println("Männeranteil in %: ");
-        System.out.println("Divers in %: ");
-        System.out.println("Durchschnitt Alter: ");
+        System.out.println("Belegung in %: " + belegungInProzent() +"%");
+        System.out.println("Frauenanteil in %: " + frauenAnteil() + "%");
+        System.out.println("Männeranteil in %: " + maennerAnteil() + "%");
+        System.out.println("Divers in %: " + diversAnteil() + "%");
+        System.out.println("Durchschnitt Alter: " + avgAlter());
         System.out.println("---------KURSTEILNEHMER-------");
+        printTeilnehmer();
     }
 
     public void printTeilnehmer() {
         for (Teilnehmer teilnehmer: teilnehmer) {
-            teilnehmer.printInfo();
+             teilnehmer.printInfo();
         }
     }
+
+    public float belegungInProzent() {
+        int teilnehmer = this.teilnehmer.size();
+        return ((float) teilnehmer / this.maxteilnehmer) * 100;
+    }
+
+    public float frauenAnteil() {
+        int anzahlFrauen = 0;
+        for (Teilnehmer teilnehmer : teilnehmer) {
+            if (teilnehmer.getGeschlecht() == 'w') {
+                anzahlFrauen++;
+            }
+        }
+        return ((float) anzahlFrauen / this.getTeilnehmer().size()) * 100;
+    }
+
+    public float maennerAnteil() {
+        int anzahlMaenner = 0;
+        for (Teilnehmer teilnehmer : teilnehmer) {
+            if (teilnehmer.getGeschlecht() == 'm') {
+                anzahlMaenner++;
+            }
+        }
+        return ((float) anzahlMaenner / this.getTeilnehmer().size()) * 100;
+    }
+
+    public float diversAnteil() {
+        int anzahlDivers = 0;
+        for (Teilnehmer teilnehmer : teilnehmer) {
+            if (teilnehmer.getGeschlecht() == 'd') {
+                anzahlDivers++;
+            }
+        }
+        return ((float) anzahlDivers / this.getTeilnehmer().size() * 100);
+    }
+
+    public float avgAlter() {
+        int alter = 0;
+        for (Teilnehmer teilnehmer : teilnehmer) {
+            alter += teilnehmer.getAlter();
+        }
+        return ((float) alter / teilnehmer.size());
+    }
+
+    public void removeTeilnehmerWithName(String vorname, String nachname) {
+        for (Teilnehmer teilnehmer : teilnehmer) {
+            if (teilnehmer.getVorname().toLowerCase().equals(vorname.toLowerCase()) || teilnehmer.getNachname().toLowerCase().equals(nachname.toLowerCase())) {
+                this.teilnehmer.remove(teilnehmer);
+            }
+        }
+    }
+
+
+
 
 
 

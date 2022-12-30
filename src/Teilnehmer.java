@@ -17,12 +17,32 @@ public class Teilnehmer {
 
     }
 
+    public String getVorname() {
+        return vorname;
+    }
+
+    public String getNachname() {
+        return nachname;
+    }
+
+    public char getGeschlecht() {
+        return geschlecht;
+    }
+
+    public LocalDate getGeburtsdatum() {
+        return geburtsdatum;
+    }
+
+    public int getAlter() {
+        return alter;
+    }
+
     public void calcAge() {
         LocalDate today = LocalDate.now();
         this.alter = (int) ChronoUnit.YEARS.between(geburtsdatum, today);
     }
 
     public void printInfo() {
-        System.out.println("Vorname: " + this.vorname + ", Nachname: " + this.nachname + ", Geburtstad: " + this.geburtsdatum + ", Geschlecht:" + geschlecht);
+        System.out.println("Vorname: " + this.vorname + ", Nachname: " + this.nachname + ", Geburtstag: " + this.geburtsdatum + ", Geschlecht:" + geschlecht + ", Alter: " + this.alter);
     }
 }

@@ -37,6 +37,22 @@ public class Institut {
         }
     }
 
+    public void addTeilnehmerToKursWithName(String kursName, Teilnehmer teilnehmer) {
+        for (Kurs kurs : kurse) {
+            if (kurs.getName().equals(kursName)) {
+                kurs.addTeilnehmer(teilnehmer);
+            }
+        }
+    }
+
+    public void printKursWithID(int kursId) {
+        for (Kurs kurs : kurse) {
+            if (kurs.getId() == kursId) {
+                kurs.printInfos();
+            }
+        }
+    }
+
     private void setId() {
         laufVariable++;
         this.id = laufVariable;
