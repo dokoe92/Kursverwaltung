@@ -5,9 +5,12 @@ public class Kurs {
     private final String name;
     private Trainer trainer;
     private final int  maxteilnehmer;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private final LocalDate  startDate;
+    private final LocalDate endDate;
     private ArrayList<Teilnehmer> teilnehmer;
+    private int id;
+
+    public static int laufVariable = 0;
 
 
     public Kurs(String name, Trainer trainer, int maxteilnehmer, LocalDate startDate, LocalDate endDate) {
@@ -17,6 +20,7 @@ public class Kurs {
         this.startDate = startDate;
         this.endDate = endDate;
         this.teilnehmer = new ArrayList<>();
+        setId();
     }
 
     public String getName() {
@@ -43,6 +47,25 @@ public class Kurs {
         return teilnehmer;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    private void setId() {
+        laufVariable++;
+        this.id = laufVariable;
+    }
+
+
+
+    public void addTeilnehmer(Teilnehmer teilnehmer) {
+        if (teilnehmer != null) {
+            this.teilnehmer.add(teilnehmer);
+        }
+    }
+
+
+
     public void printInfos() {
         System.out.println("#############################");
         System.out.println("###########KURSINFO##########");
@@ -63,5 +86,7 @@ public class Kurs {
             teilnehmer.printInfo();
         }
     }
+
+
 
 }

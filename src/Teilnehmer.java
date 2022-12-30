@@ -25,9 +25,4 @@ public class Teilnehmer {
     public void printInfo() {
         System.out.println("Vorname: " + this.vorname + ", Nachname: " + this.nachname + ", Geburtstad: " + this.geburtsdatum + ", Geschlecht:" + geschlecht);
     }
-
-
-
-
-
 }
