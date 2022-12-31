@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Institut {
@@ -26,9 +27,13 @@ public class Institut {
 
 
     public void addKurs(Kurs kurs) {
-        if(kurs != null) {
+        if(kurs != null && !kursAlreadyInList(kurs)) {
             this.kurse.add(kurs);
         }
+    }
+
+    public boolean kursAlreadyInList (Kurs kursToAdd) {
+        return kurse.contains(kursToAdd);
     }
 
     public void showKurse() {
@@ -52,6 +57,18 @@ public class Institut {
             }
         }
     }
+
+    public ArrayList<Kurs> kurseInZeitraum(LocalDate start, LocalDate end) {
+        ArrayList<Kurs> kurseInZeitraum = new ArrayList<>();
+        for (Kurs kurs : kurse) {
+            if ((kurs.getStartDate().isEqual(start) || kurs.getStartDate().isAfter(start) && kurs.getEndDate().isEqual(end) || kurs.getEndDate().isBefore(end))) {
+                kurseInZeitraum.add(kurs);
+            }
+        }
+        return kurseInZeitraum;
+    }
+
+
 
     private void setId() {
         laufVariable++;

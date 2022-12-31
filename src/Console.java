@@ -23,7 +23,7 @@ public class Console {
             System.out.println("##########################################");
             System.out.println("Was möchten Sie tun?");
             System.out.println("1. Institut auswählen");
-            System.out.println("2. Neues Institut hinzufügen");
+            System.out.println("2. Kurse durchsuchen");
             System.out.println("3. Exit");
             Scanner scanner = new Scanner(System.in);
             int input = scanner.nextInt();
@@ -144,6 +144,8 @@ public class Console {
         }
     }
 
+    public void addKursToInstitute(int institutId) {
 
+    }
 
 }
