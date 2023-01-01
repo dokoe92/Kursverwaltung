@@ -90,16 +90,8 @@ public class Institut {
 
     public ArrayList<Kurs> kurseInZeitraum(LocalDate start, LocalDate end) {
         ArrayList<Kurs> kurseInZeitraum = new ArrayList<>();
-        System.out.println(start);
-        System.out.println(end);
+
         for (Kurs kurs : kurse) {
-            LocalDate startD = kurs.getStartDate();
-            LocalDate endD = kurs.getEndDate();
-            System.out.println(startD);
-            System.out.println(endD);
-            if (startD.isEqual(start) || startD.isAfter(start)) {
-                System.out.println("ok");
-            }
             if ( (kurs.getStartDate().isEqual(start) || kurs.getStartDate().isAfter(start) ) && (kurs.getEndDate().isEqual(end) || kurs.getEndDate().isBefore(end)) ) {
                 kurseInZeitraum.add(kurs);
             }
