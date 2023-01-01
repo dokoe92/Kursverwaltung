@@ -38,6 +38,7 @@ public class Institut {
 
     }
 
+
     public boolean kursAlreadyInList (Kurs kursToAdd) {
         return kurse.contains(kursToAdd);
     }

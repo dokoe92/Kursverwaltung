@@ -103,8 +103,10 @@ public class Console {
                 institut.showKurse();
             }
         }
-        int returnButton = Kurs.laufVariable + 1;
-        int exit = Kurs.laufVariable + 2;
+        int addKurs = Kurs.laufVariable + 1;
+        int returnButton = Kurs.laufVariable + 2;
+        int exit = Kurs.laufVariable + 3;
+        System.out.println(addKurs + ". Kurs hinzufügen");
         System.out.println(returnButton + ". Return");
         System.out.println(exit + ". Exit");
         Scanner scanner = new Scanner(System.in);
@@ -115,7 +117,10 @@ public class Console {
         } else if (input == returnButton) {
             getInstitutId();
             return 0;
-        } else {
+        } else if (input == addKurs) {
+            addKursToInstitut(instutID);
+            return 0;
+        }else {
             return input;
         }
     }
@@ -154,8 +159,14 @@ public class Console {
                     char sexChar = sex.charAt(0);
                     System.out.println("Bitte Geburtstag eingeben: (YYYY-MM-DD");
                     String date = scanner.nextLine();
-                    LocalDate birthdate = LocalDate.parse(date);
-                    kursMitId.addTeilnehmer(new Teilnehmer(vorname, nachname, sexChar, birthdate));
+                    try {
+                        LocalDate birthdate = LocalDate.parse(date);
+                        kursMitId.addTeilnehmer(new Teilnehmer(vorname, nachname, sexChar, birthdate));
+                    } catch(Exception e) {
+                        System.out.println("Falsches Datum FORMAT YYYY-MM-DD");
+                        getKursInfo(institutId, kursId);
+                    }
+
                     browseInstitutes();
                     break;
 
@@ -178,6 +189,42 @@ public class Console {
         }
     }
 
+    public void addKursToInstitut(int institutId) {
+        System.out.println("----------Kurs hinzufügen------------");
+        System.out.println("-Bitte Kursnamen eingeben:");
+        Scanner scanner = new Scanner(System.in);
+        String kursname = scanner.nextLine();
+        System.out.println("-Bitte den Vornamen des Trainers eingeben: ");
+        String trainerVorname = scanner.nextLine();
+        System.out.println("-Bitte den Nachnamen des Trainers eingeben: ");
+        String trainerNachname = scanner.nextLine();
+        Trainer newTrainer = new Trainer(trainerVorname, trainerNachname);
+        System.out.println("-Bitte die maximale Teilnehmeranzahl eingeben: ");
+        int maxTeilnehmer = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Bitte den Startdatum eingeben: YYYY-MM-DD");
+        String start = scanner.nextLine();
+        System.out.println("Bitte das Enddatum eingeben: YYYY-MM-DD");
+        String end = scanner.nextLine();
+
+
+        try {
+             LocalDate startDate = LocalDate.parse(start);
+             LocalDate endDate = LocalDate.parse(end);
+
+            for (Institut institut : institute) {
+                if (institut.getId() == institutId) {
+                    institut.addKurs(new Kurs(kursname,newTrainer, maxTeilnehmer, startDate, endDate));
+                }
+            }
+            getKursId(institutId);
+
+        } catch(Exception e) {
+            System.out.println("Falsches Datum FORMAT YYYY-MM-DD!");
+            addKursToInstitut(institutId);
+        }
+
+    }
 
     // --------------KURSE--------------------------
     public int brosweKurse() {
@@ -259,8 +306,6 @@ public class Console {
         try {
             LocalDate startDate = LocalDate.parse(start);
             LocalDate endDate = LocalDate.parse(end);
-            System.out.println(startDate);
-            System.out.println(endDate);
 
             for(Institut institut : institute) {
                 ArrayList<Kurs> kurseInZeitraum = institut.kurseInZeitraum(startDate, endDate);
@@ -277,9 +322,7 @@ public class Console {
 
     }
 
-    public void addKursToInstitute(int institutId) {
 
-    }
 
 
 
