@@ -11,8 +11,8 @@ public class Teilnehmer {
     public Teilnehmer(String vorname, String nachname, char geschlecht, LocalDate geburtsdatum) {
         this.vorname = vorname;
         this.nachname = nachname;
-        this.geschlecht = geschlecht;
-        this.geburtsdatum = geburtsdatum;
+        geschlechtCheck(geschlecht);
+        geburtsdatumCheck(geburtsdatum);
         calcAge();
     }
 

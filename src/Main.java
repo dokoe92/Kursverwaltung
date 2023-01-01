@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,9 +8,18 @@ public class Main {
 
         institut.addTeilnehmerToKursWithName("Java", new Teilnehmer("Dominik", "Köberl", 'm', LocalDate.of(1992,07,28)));
 
+        /*
         Console console = new Console();
         console.addInstitut(institut);
-        console.printConsole();
+        console.printConsole(); */
+
+        ArrayList<Kurs> kurse = institut.kurseInZeitraum(LocalDate.of(2022,10,10), LocalDate.of(2023,05,03));
+
+        for (Kurs kurs : kurse) {
+            kurs.printInfos();
+            System.out.println("test");
+        }
+
 
 
 

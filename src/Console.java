@@ -1,3 +1,5 @@
+import java.sql.Array;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -28,15 +30,9 @@ public class Console {
             Scanner scanner = new Scanner(System.in);
             int input = scanner.nextInt();
             switch (input) {
-                case 1:
-                    browseInstitutes();
-                    break;
-                case 2:
-                    addNewÍnstitute();
-                    break;
-                case 3:
-                    System.exit(0);
-                    break;
+                case 1 -> browseInstitutes();
+                case 2 -> brosweKurse();
+                case 3 -> System.exit(0);
             }
 
         }
@@ -55,23 +51,49 @@ public class Console {
         for (Institut institut : institute) {
             System.out.println("ID: " + institut.getId() + ". Name:      " + institut.getName());
         }
-        int exit = Institut.laufVariable + 1;
+        int addInstitute = Institut.laufVariable + 1;
+        int returnButton = Institut.laufVariable +2;
+        int exit = Institut.laufVariable + 3;
+        System.out.println(addInstitute + ". Institut hinzufügen");
+        System.out.println(returnButton + ". Return");
         System.out.println(exit + ". Exit");
         Scanner scanner = new Scanner(System.in);
         int input = scanner.nextInt();
         if (input == exit) {
             System.exit(0);
             return 0;
-        } else {
+        } else if (input == returnButton) {
+            printConsole();
+            return 0;
+        } else if (input == addInstitute) {
+            addNewÍnstitute();
+            return 0;
+        }
+        else {
             return input;
         }
     }
 
     public void addNewÍnstitute() {
-        System.out.println("--------Neues Institut hinzufügen--------");
+        System.out.println("----------------Neues Institut hinzufügen--------");
+        System.out.println("-----Bitte den Nanem des neuen Instituts eingeben------");
+        System.out.println("\n");
+        System.out.println("Optionen:");
+        System.out.println("1. Return");
+        System.out.println("2. Exit");
         Scanner scanner = new Scanner(System.in);
         String instutName = scanner.nextLine();
-        institute.add(new Institut(instutName));
+        try {
+            int input = Integer.parseInt(instutName);
+            if (input == 1) {
+                getInstitutId();
+            } else if (input == 2) {
+                System.exit(0);
+            }
+        } catch(Exception e) {
+            institute.add(new Institut(instutName));
+            getInstitutId();
+        }
     }
 
     public int getKursId(int instutID) {
@@ -81,12 +103,17 @@ public class Console {
                 institut.showKurse();
             }
         }
-        int exit = Kurs.laufVariable +1;
+        int returnButton = Kurs.laufVariable + 1;
+        int exit = Kurs.laufVariable + 2;
+        System.out.println(returnButton + ". Return");
         System.out.println(exit + ". Exit");
         Scanner scanner = new Scanner(System.in);
         int input = scanner.nextInt();
         if (input == exit) {
             System.exit(0);
+            return 0;
+        } else if (input == returnButton) {
+            getInstitutId();
             return 0;
         } else {
             return input;
@@ -108,6 +135,8 @@ public class Console {
         System.out.println("--------Kursteilnehmer hinzufügen oder entfernen-----------");
         System.out.println("1. Hinzufügen");
         System.out.println("2. Entfernen");
+        System.out.println("3. Return");
+        System.out.println("4. Exit");
         Scanner scanner  = new Scanner(System.in);
         int input = scanner.nextInt();
         scanner.nextLine();
@@ -139,13 +168,121 @@ public class Console {
                     nachname = scanner.nextLine();
                     kursMitId.removeTeilnehmerWithName(vorname, nachname);
                     browseInstitutes();
+                case 3:
+                    getKursId(kursId);
+                case 4:
+                    System.exit(0);
+
 
             }
         }
     }
 
+
+    // --------------KURSE--------------------------
+    public int brosweKurse() {
+        System.out.println("-----------Liste aller verfügbarer Kurse (alle Institute)-----------");
+        System.out.println("---------------------Für Kurs bitte ID eingeben---------------------");
+        for (Institut institut : institute) {
+            institut.showKurse();
+        }
+          int filtern = Kurs.laufVariable + 1;
+        int returnButton = Kurs.laufVariable + 2;
+        int exit = Kurs.laufVariable + 3;
+        System.out.println(filtern + ". Filter");
+        System.out.println(returnButton + ". Return");
+        System.out.println(exit + ". Exit");
+        Scanner scanner = new Scanner(System.in);
+        int input = scanner.nextInt();
+        if (input == returnButton) {
+            printConsole();
+            return 0;
+        } else if (input == exit) {
+            System.exit(0);
+            return 0;
+        } else if (input == filtern) {
+            kurseFilter();
+            return 0;
+        } else {
+            return input;
+        }
+    }
+
+    public void kurseFilter() {
+        System.out.println("-------------Kurse filtern-----------");
+        System.out.println("1. Kurs nach namen suchen");
+        System.out.println("2. Kurs nach Zeitraum suchen");
+        System.out.println("3. Return");
+        System.out.println("4. Exit");
+
+        Scanner scanner = new Scanner(System.in);
+        int input = scanner.nextInt();
+        switch (input) {
+            case 1 -> searchKursByName();
+            case 2 -> searchKursByTime();
+            case 3 -> brosweKurse();
+            case 4 -> System.exit(0);
+        }
+    }
+
+    public void searchKursByName() {
+        System.out.println("--------Bitte Kursnamen eingeben------------");
+        Scanner scanner = new Scanner(System.in);
+        String kursname = scanner.nextLine();
+        System.out.println("\n");
+        System.out.println("1. Return");
+        System.out.println("2. Exit");
+
+        try {
+            int input = Integer.parseInt(kursname);
+            if (input == 1) {
+                kurseFilter();
+            } else if (input == 2) {
+                System.exit(0);
+            }
+        } catch(Exception e) {
+            for (Institut institut : institute) {
+                institut.printKursWithName(kursname);
+            }
+        }
+    }
+
+    public void searchKursByTime() {
+        System.out.println("-------------Kurse in Zeitraum----------------");
+        System.out.println("-----------Bitte Startdatum eingeben----------");
+        System.out.println("-------------Format: YYYY-MM-DD---------------");
+        Scanner scanner = new Scanner(System.in);
+        String start = scanner.nextLine();
+        System.out.println("-----------Bitte Enddatum eingeben------------");
+        System.out.println("--------------Format: YYYY-MM-DD--------------");
+        String end = scanner.nextLine();
+        try {
+            LocalDate startDate = LocalDate.parse(start);
+            LocalDate endDate = LocalDate.parse(end);
+            System.out.println(startDate);
+            System.out.println(endDate);
+
+            for(Institut institut : institute) {
+                ArrayList<Kurs> kurseInZeitraum = institut.kurseInZeitraum(startDate, endDate);
+                for (Kurs kurs : kurseInZeitraum) {
+                    kurs.printInfos();
+                }
+            }
+
+        } catch(Exception e) {
+            System.out.println("Falsches Format!");
+            searchKursByTime();
+        }
+
+
+    }
+
     public void addKursToInstitute(int institutId) {
 
     }
+
+
+
+
 
 }

@@ -26,19 +26,36 @@ public class Institut {
     }
 
 
+
+
     public void addKurs(Kurs kurs) {
         if(kurs != null && !kursAlreadyInList(kurs)) {
-            this.kurse.add(kurs);
+            if(!kursAlreadyInList(kurs.getName())) {
+                this.kurse.add(kurs);
+                kurs.institut = this;
+            }
         }
+
     }
 
     public boolean kursAlreadyInList (Kurs kursToAdd) {
         return kurse.contains(kursToAdd);
     }
 
+    public boolean kursAlreadyInList(String kursName) {
+        boolean kursInList = false;
+        for (Kurs kurs : kurse) {
+            if (kurs.getName().equalsIgnoreCase(kursName)) {
+                kursInList = true;
+                break;
+            }
+        }
+        return kursInList;
+    }
+
     public void showKurse() {
         for (Kurs kurs : kurse) {
-            System.out.println("ID: " + kurs.getId() +". Kursname: " + kurs.getName());
+            System.out.println("ID: " + kurs.getId() +". Kursname: " + kurs.getName() + "---Institut: " + kurs.getInstitut().getName());
         }
     }
 
@@ -58,10 +75,32 @@ public class Institut {
         }
     }
 
+    public void printKursWithName(String name) {
+        boolean search = true;
+        int index = 0;
+        while (search && index < kurse.size()) {
+            if (kurse.get(index).getName().equalsIgnoreCase(name)) {
+                kurse.get(index).printInfos();
+                search = false;
+            }
+            index++;
+        }
+        System.out.println("Kurs nicht gefunden!");
+    }
+
     public ArrayList<Kurs> kurseInZeitraum(LocalDate start, LocalDate end) {
         ArrayList<Kurs> kurseInZeitraum = new ArrayList<>();
+        System.out.println(start);
+        System.out.println(end);
         for (Kurs kurs : kurse) {
-            if ((kurs.getStartDate().isEqual(start) || kurs.getStartDate().isAfter(start) && kurs.getEndDate().isEqual(end) || kurs.getEndDate().isBefore(end))) {
+            LocalDate startD = kurs.getStartDate();
+            LocalDate endD = kurs.getEndDate();
+            System.out.println(startD);
+            System.out.println(endD);
+            if (startD.isEqual(start) || startD.isAfter(start)) {
+                System.out.println("ok");
+            }
+            if ( (kurs.getStartDate().isEqual(start) || kurs.getStartDate().isAfter(start) ) && (kurs.getEndDate().isEqual(end) || kurs.getEndDate().isBefore(end)) ) {
                 kurseInZeitraum.add(kurs);
             }
         }

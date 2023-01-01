@@ -12,6 +12,8 @@ public class Kurs {
 
     public static int laufVariable = 0;
 
+    public Institut institut;
+
 
     public Kurs(String name, Trainer trainer, int maxteilnehmer, LocalDate startDate, LocalDate endDate) {
         this.name = name;
@@ -51,10 +53,20 @@ public class Kurs {
         return id;
     }
 
+    public Institut getInstitut() {
+        return institut;
+    }
+
+    public void setInstitut(Institut institut) {
+        this.institut = institut;
+    }
+
     private void setId() {
         laufVariable++;
         this.id = laufVariable;
     }
+
+
 
 
 
@@ -74,12 +86,15 @@ public class Kurs {
         System.out.println("#############################");
         System.out.println("Name:      " + this.name);
         System.out.println("Trainer:    " + this.trainer.getVorname() + " " + this.trainer.getNachname());
+        System.out.println("Institut:    " + this.institut.getName());
         System.out.println("Max. Anzahl: " + this.maxteilnehmer);
         System.out.println("Belegung in %: " + belegungInProzent() +"%");
         System.out.println("Frauenanteil in %: " + frauenAnteil() + "%");
         System.out.println("Männeranteil in %: " + maennerAnteil() + "%");
         System.out.println("Divers in %: " + diversAnteil() + "%");
         System.out.println("Durchschnitt Alter: " + avgAlter());
+        System.out.println("Starttermin:      " + startDate);
+        System.out.println("Ende:             " + endDate);
         System.out.println("---------KURSTEILNEHMER-------");
         printTeilnehmer();
     }
@@ -136,6 +151,7 @@ public class Kurs {
     public void removeTeilnehmerWithName(String vorname, String nachname) {
         teilnehmer.removeIf(teilnehmer -> teilnehmer.getVorname().equalsIgnoreCase(vorname) || teilnehmer.getNachname().equalsIgnoreCase(nachname));
     }
+
 
 
 
